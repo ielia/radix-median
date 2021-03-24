@@ -1,3 +1,7 @@
+# Binaries
+/median
+/test
+
 # Prerequisites
 *.d
 
