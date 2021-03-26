@@ -41,7 +41,7 @@ int main(char **argv) {
     myList = (int64_t *) malloc(0);
 
     scanf("%lu", &availMem);
-    logTest("Available memory: %lu\n", availMem);
+    logTest("Available memory: %lu bytes.\n", availMem);
     while(scanf("%ld", &value) != EOF) {
         if (value < min) { min = value; }
         if (value > max) { max = value; }
@@ -51,11 +51,12 @@ int main(char **argv) {
         myList[length - 1] = value;
     }
 
-    logTest("Calculating median on");
+    logInfo("Calculating median on %lu elements.\n", length);
+    logDebug("List:");
     for (int64_t i = 0; i < length; ++i) { logDebug(" %ld", myList[i]); }
-    logTest("\n");
+    logDebug("\n");
     result = median(min, max, availMem, atEnd, readShit, rewindStream);
-    logTest("Result: %Lg\n", result);
+    logTest("Result: %.1Lf\n", result);
 
     return 0;
 }

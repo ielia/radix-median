@@ -46,7 +46,7 @@ BOOL runtest(uint64_t availMem, int64_t *theList, uint64_t len, int64_t minVal, 
     BOOL testOK;
     long double result;
 
-    logTest("TEST(availMem=%lu, %s, expected=%Lg) :\n", availMem, description, expectedResult);
+    logTest("TEST(availMem=%lu, %s, expected=%.1Lf) :\n", availMem, description, expectedResult);
 
     length = len;
     myList = theList;
@@ -62,7 +62,7 @@ BOOL runtest(uint64_t availMem, int64_t *theList, uint64_t len, int64_t minVal, 
     result = median(minVal, maxVal, availMem, atEnd, readShit, rewindStream);
 
     testOK = result == expectedResult;
-    logTest("\tactual=%Lg (%s)\n", result, testOK ? "OK" : "Failed");
+    logTest("\tactual=%.1Lf (%s)\n", result, testOK ? "OK" : "Failed");
     return testOK;
 }
 
@@ -120,6 +120,28 @@ int main(char **argv) {
 
     int64_t arr3[] = { -1000, -1 };
     runtest(800, arr3, 2, -1000, -1, -500.5, "[-1000, -1]") ? ++ok : ++failed;
+
+    int64_t arr4[] = {
+        200, 200, 200, 200, 200, 200, 200, 200, 200, 200,
+        200, 200, 200, 200, 200, 200, 200, 200, 200, 200,
+        200, 200, 200, 200, 200, 200, 200, 200, 200, 200,
+        200, 200, 100,  30,   0,   0,   0,   0,   0,   0,
+          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+          0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+          0,   0,   0,   0,   0,   0
+    };
+    runtest(500, arr4, 66, 0, 200, 65.0, "[200{32}, 100, 30, 0{32}]") ? ++ok : ++failed;
+
+    int64_t arr5[] = {
+        1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200,
+        1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200,
+        1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200,
+        1200, 1200, 1100, 1030, 1000, 1000, 1000, 1000, 1000, 1000,
+        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
+        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
+        1000, 1000, 1000, 1000, 1000, 1000
+    };
+    runtest(500, arr5, 66, 1000, 1200, 1065.0, "[1200{32}, 1100, 1030, 1000{32}]") ? ++ok : ++failed;
 
     logTest("\nTotal number of tests: %d,\n    % 3d tests succeeded\n    % 3d tests failed\n", ok + failed, ok, failed);
 
